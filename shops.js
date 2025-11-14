@@ -1,8 +1,6 @@
-let shops = JSON.parse(localStorage.getItem('shops')) || [];
-
 function createShop(){
   let name = document.getElementById('shopName').value.trim();
-  if(name.length<1){ alert("Digite o nome da loja"); return; }
+  if(!name){ alert("Digite o nome da loja"); return; }
   let shop = {id:Date.now(), owner:user.nickname, name:name, products:[]};
   shops.push(shop); localStorage.setItem('shops', JSON.stringify(shops));
   document.getElementById('shopName').value='';
