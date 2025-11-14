@@ -22,12 +22,16 @@
       <span id="xp">XP: 0</span> |
       <span id="coins">GT-Coins: 0</span>
     </div>
+    <div id="langSwitcher">
+      <button onclick="setLang('pt')">PT</button>
+      <button onclick="setLang('en')">EN</button>
+    </div>
   </header>
 
   <main>
     <!-- Tribos -->
     <section id="tribeSelection">
-      <h2>Escolher Tribo</h2>
+      <h2 data-lang="chooseTribe">Escolher Tribo</h2>
       <div class="tribe-buttons">
         <button onclick="chooseTribe('Visionários')">Visionários</button>
         <button onclick="chooseTribe('Criadores')">Criadores</button>
@@ -38,7 +42,7 @@
 
     <!-- Jogos -->
     <section id="games">
-      <h2>Jogos Desafiadores</h2>
+      <h2 data-lang="games">Jogos Desafiadores</h2>
       <div class="game-buttons">
         <button onclick="startGame('speedMath')">Speed Math Arena</button>
         <button onclick="startGame('memoryClash')">Memory Clash</button>
@@ -47,20 +51,25 @@
       </div>
     </section>
 
+    <!-- Área do jogo -->
+    <section id="gameArea">
+      <div id="gameContainer"></div>
+    </section>
+
     <!-- Ranking -->
     <section id="ranking">
-      <h2>Ranking Global</h2>
+      <h2 data-lang="ranking">Ranking Global</h2>
       <ul id="rankingList"></ul>
     </section>
 
     <!-- Recompensas -->
     <section id="rewards">
-      <h2>Recompensas & Cupons</h2>
+      <h2 data-lang="rewards">Recompensas & Cupons</h2>
       <ul id="rewardsList"></ul>
     </section>
 
-    <!-- Botão para email -->
-    <button id="contactBtn" onclick="showEmail()">Contate-nos</button>
+    <!-- Botão invisível para email -->
+    <button id="contactBtn" onclick="showEmail()"></button>
   </main>
 
   <footer>
