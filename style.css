@@ -1,31 +1,15 @@
-/* CC-Ropson Gustavo */
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif;}
-body { background: linear-gradient(135deg,#6a11cb,#2575fc); color:#fff; }
-#app { max-width:950px; margin:auto; padding:20px; }
-
-header { text-align:center; margin-bottom:30px; }
-header .logo { display:flex; justify-content:center; align-items:center; gap:10px; }
-header .logo img { width:60px; height:60px; border-radius:10px; }
-#langSwitcher { margin-top:10px; }
-#langSwitcher button { padding:5px 10px; margin:0 5px; border-radius:8px; background:#fff; color:#2575fc; font-weight:bold; cursor:pointer; }
-#langSwitcher button:hover { background:#2575fc; color:#fff; }
-
-h1 { font-size:2.5em; }
-h2 { font-size:1.6em; margin-bottom:15px; text-align:center; }
-
-button { background:#fff; color:#2575fc; border:none; padding:12px 25px; margin:8px; border-radius:12px; cursor:pointer; font-weight:bold; transition:0.3s; font-size:1em; }
-button:hover { background:#2575fc; color:#fff; transform:scale(1.05); }
-
-section { margin-bottom:30px; padding:20px; background: rgba(0,0,0,0.15); border-radius:20px; }
-.tribe-buttons, .game-buttons { display:flex; justify-content:center; flex-wrap:wrap; gap:15px; }
-#rankingList, #rewardsList { list-style:none; padding:10px; }
-#gameContainer { margin-top:20px; text-align:center; min-height:200px; }
-
-#contactBtn { opacity:0; height:0; width:0; position:absolute; top:-50px; }
-
-footer { text-align:center; margin-top:30px; font-size:1em; opacity:0.8; font-weight:bold; }
-
-/* Responsivo */
+* {margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif;}
+body {background: linear-gradient(135deg,#6a11cb,#2575fc); color:#fff;}
+#app {max-width:950px; margin:auto; padding:20px;}
+header {text-align:center; margin-bottom:20px;}
+header .logo h1 {font-size:2.5em;}
+button {padding:10px 20px; border:none; border-radius:10px; cursor:pointer; background:#fff; color:#2575fc; font-weight:bold; margin:5px; transition:0.3s;}
+button:hover {background:#2575fc; color:#fff; transform:scale(1.05);}
+section {margin-bottom:20px; padding:15px; background: rgba(0,0,0,0.2); border-radius:15px;}
+input, textarea {padding:10px; border-radius:10px; border:none; width:90%; margin-bottom:10px;}
+.avatar {width:80px; height:80px; border-radius:50px; margin-bottom:10px;}
+ul {list-style:none; margin-top:10px;}
+li {margin-bottom:10px; background: rgba(255,255,255,0.1); padding:8px; border-radius:8px;}
 @media(max-width:600px){
-  .tribe-buttons button, .game-buttons button{ width:100%; margin:5px 0; }
-             }
+  input, textarea {width:100%;}
+}
