@@ -1,5 +1,32 @@
 // CC-Ropson Gustavo
+// CC-Ropson Gustavo - Login simples por nickname
+let nickname = localStorage.getItem('gt_nickname') || "";
 
+function login(){
+  let input = document.getElementById('nicknameInput').value.trim();
+  if(input.length<3){ alert("Nickname deve ter ao menos 3 caracteres!"); return; }
+  nickname = input;
+  localStorage.setItem('gt_nickname', nickname);
+  alert("Bem-vindo, " + nickname + "!");
+  // Esconde a seção de login
+  document.getElementById('loginSection').style.display="none";
+  // Mostra o resto da plataforma
+  document.querySelector('header').style.display="block";
+  document.querySelector('main').style.display="block";
+}
+
+// Inicialização: se já houver nickname, entrar automaticamente
+window.onload=function(){
+  if(nickname){
+    document.getElementById('loginSection').style.display="none";
+    document.querySelector('header').style.display="block";
+    document.querySelector('main').style.display="block";
+    alert("Bem-vindo de volta, "+nickname+"!");
+  } else {
+    document.querySelector('header').style.display="none";
+    document.querySelector('main').style.display="none";
+  }
+}
 let user = { tribe:"", points:0, xp:0, coins:0 };
 let ranking = JSON.parse(localStorage.getItem('gt_ranking')||'[]');
 let lang='pt';
