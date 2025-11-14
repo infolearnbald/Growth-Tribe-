@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth Tribe</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" href="platform_icon.png">
+<!-- CC-Ropson Gustavo -->
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="logo">
+      <img src="platform_icon.png" alt="Growth Tribe Logo">
+      <h1>Growth Tribe</h1>
+    </div>
+    <div id="userInfo">
+      <span id="tribeName">Tribo: Nenhuma</span> |
+      <span id="points">Pontos: 0</span> |
+      <span id="xp">XP: 0</span> |
+      <span id="coins">GT-Coins: 0</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- Tribos -->
+    <section id="tribeSelection">
+      <h2>Escolher Tribo</h2>
+      <div class="tribe-buttons">
+        <button onclick="chooseTribe('Visionários')">Visionários</button>
+        <button onclick="chooseTribe('Criadores')">Criadores</button>
+        <button onclick="chooseTribe('Exploradores')">Exploradores</button>
+        <button onclick="chooseTribe('Sábios')">Sábios</button>
+      </div>
+    </section>
+
+    <!-- Jogos -->
+    <section id="games">
+      <h2>Jogos Desafiadores</h2>
+      <div class="game-buttons">
+        <button onclick="startGame('speedMath')">Speed Math Arena</button>
+        <button onclick="startGame('memoryClash')">Memory Clash</button>
+        <button onclick="startGame('reactionWar')">Reaction War</button>
+        <button onclick="startGame('brainTower')">The Brain Tower</button>
+      </div>
+    </section>
+
+    <!-- Ranking -->
+    <section id="ranking">
+      <h2>Ranking Global</h2>
+      <ul id="rankingList"></ul>
+    </section>
+
+    <!-- Recompensas -->
+    <section id="rewards">
+      <h2>Recompensas & Cupons</h2>
+      <ul id="rewardsList"></ul>
+    </section>
+
+    <!-- Botão para email -->
+    <button id="contactBtn" onclick="showEmail()">Contate-nos</button>
+  </main>
+
+  <footer>
+    Growth Tribe
+  </footer>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
