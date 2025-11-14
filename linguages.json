@@ -1,0 +1,16 @@
+{
+  "pt": {
+    "welcome":"Bem-vindo à Social Hub",
+    "profile":"Perfil",
+    "feed":"Feed",
+    "ranking":"Ranking Global",
+    "shops":"Lojas"
+  },
+  "en": {
+    "welcome":"Welcome to Social Hub",
+    "profile":"Profile",
+    "feed":"Feed",
+    "ranking":"Global Ranking",
+    "shops":"Shops"
+  }
+}
