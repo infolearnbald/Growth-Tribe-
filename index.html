@@ -1,75 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Social Hub</title>
-<link rel="stylesheet" href="style.css">
-<link rel="icon" href="favicon.png">
-</head>
-<body>
-
-<div id="app">
-
-  <!-- LOGIN -->
-  <section id="loginSection">
-    <h2>Entre com seu Nickname</h2>
-    <input type="text" id="nicknameInput" placeholder="Seu nickname">
-    <button onclick="login()">Entrar</button>
-  </section>
-
-  <!-- HEADER -->
-  <header>
-    <div class="logo">
-      <h1>Social Hub</h1>
-    </div>
-    <div id="userInfo">
-      <span id="userName">Nickname: -</span> |
-      <span id="xp">XP: 0</span> |
-      <span id="coins">Cupons: 0</span>
-    </div>
-    <div id="langSwitcher">
-      <button onclick="setLang('pt')">PT</button>
-      <button onclick="setLang('en')">EN</button>
-    </div>
-  </header>
-
-  <!-- PERFIL -->
-  <section id="profileSection">
-    <h2>Perfil</h2>
-    <img id="avatar" src="avatar.png" alt="Avatar" class="avatar">
-    <input type="text" id="bioInput" placeholder="Escreva sua bio">
-    <button onclick="updateProfile()">Atualizar Perfil</button>
-    <p id="followers">Seguidores: 0</p>
-    <p id="following">Seguindo: 0</p>
-  </section>
-
-  <!-- FEED SOCIAL -->
-  <section id="feedSection">
-    <h2>Feed</h2>
-    <textarea id="postInput" placeholder="O que você quer compartilhar?"></textarea>
-    <button onclick="createPost()">Postar</button>
-    <ul id="feedList"></ul>
-  </section>
-
-  <!-- RANKING -->
-  <section id="rankingSection">
-    <h2>Ranking Global</h2>
-    <ul id="rankingList"></ul>
-  </section>
-
-  <!-- LOJAS -->
-  <section id="shopsSection">
-    <h2>Minhas Lojas</h2>
-    <input type="text" id="shopName" placeholder="Nome da loja">
-    <button onclick="createShop()">Criar Loja</button>
-    <ul id="shopsList"></ul>
-  </section>
-
-</div>
-
-<script src="languages.json" type="application/json"></script>
-<script src="shops.js"></script>
-<script src="script.js"></script>
-</body>
-</html>
+{
+  "pt": {
+    "welcome":"Bem-vindo à Social Hub",
+    "profile":"Perfil",
+    "feed":"Feed",
+    "ranking":"Ranking Global",
+    "shops":"Lojas"
+  },
+  "en": {
+    "welcome":"Welcome to Social Hub",
+    "profile":"Profile",
+    "feed":"Feed",
+    "ranking":"Global Ranking",
+    "shops":"Shops"
+  }
+}
