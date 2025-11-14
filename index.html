@@ -1,627 +1,75 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Growth Tribe — Corrida 2D Prototype</title>
-<link rel="icon" href="platform_icon.png">
-<style>
-:root{
-  --bg:#f5f7fa; --card:#ffffff; --accent:#0a84ff; --muted:#8a8f98; --radius:14px; --gap:12px;
-  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0; font-family:var(--font); background:linear-gradient(180deg,#f0f4ff,#ffffff); color:#0b1220;
-  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-}
-.app{max-width:980px;margin:0 auto;padding:14px}
-.header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
-.brand{display:flex;gap:10px;align-items:center}
-.logo{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,#6a7cff,#2bb0ff);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
-.title{font-size:1.05rem;font-weight:700}
-.topstats{font-size:0.9rem;color:var(--muted)}
-.grid{display:grid;grid-template-columns:1fr 350px;gap:14px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-.card{background:var(--card);border-radius:var(--radius);padding:12px;box-shadow:0 6px 20px rgba(12,30,60,0.06)}
-.small{font-size:0.85rem;color:var(--muted)}
-.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.btn{background:var(--accent);color:white;padding:10px 12px;border-radius:10px;border:none;font-weight:700;cursor:pointer}
-.btn.ghost{background:transparent;color:var(--accent);border:2px solid rgba(10,132,255,0.12)}
-.input,textarea,select{padding:8px;border-radius:10px;border:1px solid #e6e9ef;outline:none;width:100%}
-.feed{display:flex;flex-direction:column;gap:8px;margin-top:8px}
-.post{padding:10px;border-radius:10px;background:#fbfdff;border:1px solid #eef3ff}
-.profileRow{display:flex;gap:10px;align-items:center}
-.avatar{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#2bb0ff,#6a7cff);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
-.canvasWrap{background:#07142a;border-radius:12px;padding:8px;display:flex;flex-direction:column;align-items:center}
-canvas#race{border-radius:10px;background:linear-gradient(180deg,#06436b,#042b46)}
-.controlsMobile{display:flex;gap:6px;margin-top:8px;justify-content:center}
-.touchBtn{background:rgba(255,255,255,0.08);border-radius:12px;padding:12px 18px;color:#fff;font-weight:700;border:1px solid rgba(255,255,255,0.06)}
-.shopGrid{display:flex;flex-wrap:wrap;gap:8px}
-.charCard{width:100px;padding:8px;border-radius:10px;background:#fbfdff;border:1px solid #e6eefc;text-align:center}
-.footer{margin-top:18px;text-align:center;color:var(--muted);font-size:0.85rem}
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Hub</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="favicon.png">
 </head>
 <body>
-<div class="app">
-  <div class="header">
-    <div class="brand"><div class="logo">GT</div><div><div class="title">Growth Tribe — Corrida 2D</div><div class="small">Minimalista • Mobile-first • Torneios & Cupons</div></div></div>
-    <div class="topstats" id="topStats">Tribo: — • Pontos:0 • XP:0 • GT-Coins:0</div>
-  </div>
 
-  <div class="grid">
-    <div>
-      <!-- LOGIN / PROFILE -->
-      <section class="card" id="loginCard">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <strong>Entrar / Perfil</strong>
-          <button class="btn ghost" onclick="enterAsPrompt()">Entrar como (dev)</button>
-        </div>
-        <div style="margin-top:8px">
-          <input id="nicknameInput" class="input" placeholder="Nickname (mín 3)" />
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <select id="province" class="input">
-              <option value="">Escolha província</option>
-              <option>Nampula</option><option>Zambézia</option><option>Sofala</option><option>Maputo</option><option>Cabo Delgado</option><option>Outros</option>
-            </select>
-            <button class="btn" onclick="login()">Entrar</button>
-          </div>
-          <div class="small" style="margin-top:8px">O login guarda tudo localmente no teu dispositivo. Usa Export/Import para migrar.</div>
-        </div>
-        <hr style="margin:10px 0;border:none;border-top:1px solid #eef3ff" />
-        <div id="profileArea" class="profileRow">
-          <div class="avatar" id="avatar">?</div>
-          <div style="flex:1">
-            <div id="profileName"><strong>Visitante</strong></div>
-            <div class="small" id="profileInfo">Tribo: — • País: —</div>
-            <div style="margin-top:6px" id="profileButtons"></div>
-          </div>
-        </div>
-      </section>
+<div id="app">
 
-      <!-- FEED / POSTS -->
-      <section class="card">
-        <strong>Feed</strong>
-        <div style="margin-top:8px">
-          <textarea id="postText" placeholder="Compartilhe algo (máx 240 chars)" rows="2" class="input"></textarea>
-          <div class="controls"><button class="btn" onclick="createPost()">Publicar</button><button class="btn ghost" onclick="refreshFeed()">Atualizar</button></div>
-        </div>
-        <div id="feed" class="feed"></div>
-      </section>
+  <!-- LOGIN -->
+  <section id="loginSection">
+    <h2>Entre com seu Nickname</h2>
+    <input type="text" id="nicknameInput" placeholder="Seu nickname">
+    <button onclick="login()">Entrar</button>
+  </section>
 
-      <!-- SHOP / CHARACTERS -->
-      <section class="card">
-        <strong>Loja / Personagens</strong>
-        <div class="small">Compra personagens com cupons. Tu podes adicionar novas personagens (JSON + imagem) que ficarão guardadas.</div>
-        <div style="margin-top:8px" class="shopGrid" id="shop"></div>
-        <div style="margin-top:10px">
-          <input type="file" id="charFile" accept="application/json" /><input type="file" id="charImg" accept="image/*" />
-          <div class="controls"><button class="btn ghost" onclick="importCharacter()">Importar Personagem</button></div>
-        </div>
-      </section>
-
-      <!-- CORRIDA 2D -->
-      <section class="card canvasWrap">
-        <strong style="color:#fff">Corrida 2D — Canvas</strong>
-        <div class="small" style="color:rgba(255,255,255,0.8);margin-top:4px">Modo: <span id="raceMode">CPU</span> • Toque para acelerar • Arrasta para virar</div>
-        <canvas id="race" width="760" height="320"></canvas>
-        <div class="controlsMobile">
-          <button class="touchBtn" onpointerdown="pressLeft(true)" onpointerup="pressLeft(false)">◀</button>
-          <button class="touchBtn" onpointerdown="pressAccel(true)" onpointerup="pressAccel(false)">Acelerar</button>
-          <button class="touchBtn" onpointerdown="pressRight(true)" onpointerup="pressRight(false)">▶</button>
-        </div>
-        <div class="controls" style="margin-top:8px">
-          <button class="btn" onclick="startRace('cpu')">Jogar vs CPU</button>
-          <button class="btn" onclick="startRace('sim')">Jogar Online (simulado)</button>
-          <button class="btn ghost" onclick="showRaceStats()">Estatísticas</button>
-        </div>
-        <div class="small" id="raceInfo" style="margin-top:6px"></div>
-      </section>
-
-      <!-- TOURNAMENTS -->
-      <section class="card">
-        <strong>Torneios & Temporadas</strong>
-        <div style="margin-top:8px" class="small">Cria / entra em temporadas e inscreve-te.</div>
-        <div style="margin-top:8px">
-          <input id="seasonName" class="input" placeholder="Nome temporada" />
-          <div class="controls">
-            <button class="btn" onclick="createSeason()">Criar Temporada</button>
-            <button class="btn ghost" onclick="joinSeason()">Inscrever-se</button>
-            <button class="btn" onclick="runSeason()">Executar Competição (simulada)</button>
-          </div>
-          <div id="seasonList" class="small" style="margin-top:8px"></div>
-        </div>
-      </section>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <h1>Social Hub</h1>
     </div>
+    <div id="userInfo">
+      <span id="userName">Nickname: -</span> |
+      <span id="xp">XP: 0</span> |
+      <span id="coins">Cupons: 0</span>
+    </div>
+    <div id="langSwitcher">
+      <button onclick="setLang('pt')">PT</button>
+      <button onclick="setLang('en')">EN</button>
+    </div>
+  </header>
 
-    <aside>
-      <!-- SOCIAL / FOLLOW -->
-      <section class="card">
-        <strong>Perfis & Seguir</strong>
-        <div id="profilesList" style="margin-top:8px"></div>
-      </section>
+  <!-- PERFIL -->
+  <section id="profileSection">
+    <h2>Perfil</h2>
+    <img id="avatar" src="avatar.png" alt="Avatar" class="avatar">
+    <input type="text" id="bioInput" placeholder="Escreva sua bio">
+    <button onclick="updateProfile()">Atualizar Perfil</button>
+    <p id="followers">Seguidores: 0</p>
+    <p id="following">Seguindo: 0</p>
+  </section>
 
-      <!-- RESGATE DE CUPONS -->
-      <section class="card">
-        <strong>Meus Cupons</strong>
-        <div class="small">Cupons são ganhos nas corridas e torneios. Usa para comprar personagens.</div>
-        <div style="margin-top:8px" id="couponArea"></div>
-      </section>
+  <!-- FEED SOCIAL -->
+  <section id="feedSection">
+    <h2>Feed</h2>
+    <textarea id="postInput" placeholder="O que você quer compartilhar?"></textarea>
+    <button onclick="createPost()">Postar</button>
+    <ul id="feedList"></ul>
+  </section>
 
-      <!-- CHAT SIMPLE -->
-      <section class="card">
-        <strong>Chat Global (texto)</strong>
-        <div style="margin-top:8px"><input id="chatInput" class="input" placeholder="Mensagem..." /><div class="controls"><button class="btn" onclick="sendChat()">Enviar</button></div></div>
-        <div id="chatArea" style="margin-top:8px;max-height:220px;overflow:auto"></div>
-      </section>
+  <!-- RANKING -->
+  <section id="rankingSection">
+    <h2>Ranking Global</h2>
+    <ul id="rankingList"></ul>
+  </section>
 
-      <!-- AUDIO -->
-      <section class="card">
-        <strong>Áudio</strong>
-        <div class="small">Música de fundo e efeitos. Podes desligar a qualquer momento.</div>
-        <div class="controls" style="margin-top:8px">
-          <button class="btn" id="toggleMusic" onclick="toggleMusic()">Desligar Música</button>
-          <button class="btn ghost" onclick="playSfx('beep')">Efeito</button>
-        </div>
-      </section>
+  <!-- LOJAS -->
+  <section id="shopsSection">
+    <h2>Minhas Lojas</h2>
+    <input type="text" id="shopName" placeholder="Nome da loja">
+    <button onclick="createShop()">Criar Loja</button>
+    <ul id="shopsList"></ul>
+  </section>
 
-      <section class="card">
-        <strong>Import / Export</strong>
-        <div class="small">Exporta/importa todo o estado (JSON) — útil para migrar sem banco pago.</div>
-        <div style="margin-top:8px" class="controls">
-          <button class="btn" onclick="exportDB()">Exportar DB</button>
-          <input type="file" id="importFile" accept="application/json" />
-          <button class="btn ghost" onclick="importDB()">Importar DB</button>
-        </div>
-      </section>
-    </aside>
-  </div>
-
-  <div class="footer">Prototype — sem pagamentos reais. Para pagamentos reais: processamento manual.</div>
 </div>
 
-<script>
-/* =========================
-   Growth Tribe — 2D Racing MVP
-   Single file prototype — mobile-first
-   Uses localStorage as DB (no paid DB)
-   ========================= */
-
-/* ---------- DB (localStorage) ---------- */
-const DB_KEY = 'gt_proto_v2';
-let DB = loadDB();
-function defaultDB(){
-  return {
-    users: {}, // nickname => user object
-    posts: [], // {id, author, text, ts}
-    chars: [], // characters available {id, name, cost, imgDataUrl, createdAt}
-    seasons: [], // seasons {id,name,players:[],results:[]}
-    chat: [], // {ts,author,msg}
-    createdAt: Date.now()
-  };
-}
-function loadDB(){
-  try{
-    const raw = localStorage.getItem(DB_KEY);
-    if(!raw){ const d=defaultDB(); localStorage.setItem(DB_KEY,JSON.stringify(d)); return d; }
-    return JSON.parse(raw);
-  }catch(e){ console.error(e); const d=defaultDB(); localStorage.setItem(DB_KEY,JSON.stringify(d)); return d; }
-}
-function saveDB(){ localStorage.setItem(DB_KEY, JSON.stringify(DB)); refreshAll(); }
-
-/* ---------- session ---------- */
-let nickname = localStorage.getItem('gt_nickname') || '';
-let user = nickname ? (DB.users[nickname] || null) : null;
-
-/* ---------- utilities ---------- */
-function el(id){ return document.getElementById(id) }
-function uid(prefix='id'){ return prefix + Date.now() + Math.floor(Math.random()*999) }
-function randColor(){ const cs=['#60a5fa','#34d399','#f59e0b','#a78bfa','#fb7185']; return cs[Math.floor(Math.random()*cs.length)]; }
-function escapeHtml(s){ return s ? s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]) : '' }
-
-/* ---------- Init ---------- */
-window.addEventListener('load', ()=>{
-  setupDefaults();
-  setupUI();
-  if(nickname && DB.users[nickname]) enterAs(nickname);
-  else showGuest();
-});
-
-/* ---------- defaults (seed) ---------- */
-function setupDefaults(){
-  if(DB.chars.length===0){
-    DB.chars.push({id:'c1',name:'Runner Azul',cost:50,imgDataUrl:null,createdAt:Date.now()});
-    DB.chars.push({id:'c2',name:'Runner Vermelho',cost:80,imgDataUrl:null,createdAt:Date.now()});
-    saveDB();
-  }
-}
-
-/* ---------- Auth / Profile ---------- */
-function login(){
-  const nick = el('nicknameInput').value.trim();
-  const province = el('province').value || 'Outros';
-  if(nick.length < 3){ alert('Nickname mínimo 3 caracteres'); return; }
-  if(!DB.users[nick]){
-    DB.users[nick] = { nickname:nick, bio:'', province, coins:100, points:0, xp:0, following:[], followers:[], charsOwned:['c1'], createdAt:Date.now(), avatarColor:randColor() };
-    saveDB();
-  }
-  localStorage.setItem('gt_nickname', nick);
-  enterAs(nick);
-}
-function enterAs(nick){
-  nickname = nick;
-  user = DB.users[nick];
-  refreshAll();
-  alert('Bem-vindo, ' + nick);
-}
-function showGuest(){ user=null; refreshAll(); }
-function enterAsPrompt(){ const n=prompt('Nickname:'); if(!n) return; if(!DB.users[n] && confirm('Criar novo usuário '+n+'?')){ DB.users[n]={nickname:n,bio:'',province:'Outros',coins:100,points:0,xp:0,following:[],followers:[],charsOwned:['c1'],createdAt:Date.now(),avatarColor:randColor()}; saveDB(); } if(DB.users[n]){ localStorage.setItem('gt_nickname',n); enterAs(n) } }
-
-/* ---------- Profile UI ---------- */
-function setupUI(){
-  refreshAll();
-  el('feed').addEventListener('scroll', ()=>{});
-}
-function refreshAll(){
-  // header stats
-  el('topStats').innerText = `Tribo: ${user && user.province?user.province:'Nenhuma'} • Pontos:${user?user.points:0} • XP:${user?user.xp:0} • GT:${user?user.coins:0}`;
-  // profile area
-  el('avatar').innerText = user ? user.nickname.slice(0,2).toUpperCase() : '?';
-  el('profileName').innerText = user ? user.nickname : 'Visitante';
-  el('profileInfo').innerText = user ? `Tribo: ${user.province} • Criado: ${new Date(user.createdAt).toLocaleDateString()}` : 'Tribo: —';
-  // profile buttons
-  const pb = el('profileButtons'); pb.innerHTML = '';
-  if(user){
-    const btns = `<button class="btn ghost" onclick="editProfile()">Editar</button> <button class="btn" onclick="logout()">Sair</button>`;
-    pb.innerHTML = btns;
-  } else {
-    pb.innerHTML = `<div class="small">Faça login para guardar progresso e competir.</div>`;
-  }
-  // feed
-  refreshFeed();
-  // shop
-  renderShop();
-  // profiles list
-  renderProfiles();
-  // chat
-  renderChat();
-  // seasons
-  renderSeasons();
-  // coupons
-  renderCoupons();
-  saveDB();
-}
-
-/* ---------- Posts / Feed ---------- */
-function createPost(){
-  if(!user){ alert('Faça login para postar'); return; }
-  const text = (el('postText').value||'').trim();
-  if(!text) return;
-  const post = { id: uid('post'), author: user.nickname, text: text.slice(0,240), ts: Date.now() };
-  DB.posts.push(post);
-  user.points = (user.points||0)+1; user.xp=(user.xp||0)+1;
-  el('postText').value='';
-  saveDB();
-  refreshFeed();
-}
-function refreshFeed(){
-  const feed = el('feed'); feed.innerHTML = '';
-  const posts = DB.posts.slice().reverse().slice(0,60);
-  posts.forEach(p=>{
-    const d = document.createElement('div'); d.className='post';
-    d.innerHTML = `<strong>${escapeHtml(p.author)}</strong> <span class="small">• ${new Date(p.ts).toLocaleString()}</span><div>${escapeHtml(p.text)}</div>`;
-    feed.appendChild(d);
-  });
-}
-
-/* ---------- Shop / Characters ---------- */
-function renderShop(){
-  const shop = el('shop'); shop.innerHTML = '';
-  DB.chars.forEach(c=>{
-    const div = document.createElement('div'); div.className='charCard';
-    const owned = user && user.charsOwned && user.charsOwned.includes(c.id);
-    div.innerHTML = `<div style="height:64px;display:flex;align-items:center;justify-content:center;background:${user?user.avatarColor:'#ddd'};border-radius:8px;margin-bottom:6px">${c.imgDataUrl?'<img src="'+c.imgDataUrl+'" style="max-width:80px;max-height:60px;border-radius:6px">':'<div style="font-weight:800;color:#fff">'+c.name.split(' ')[0].slice(0,2)+'</div>'}</div>
-      <div style="font-weight:700">${escapeHtml(c.name)}</div>
-      <div class="small">Custo: ${c.cost} cupons</div>
-      <div style="margin-top:6px">${owned?'<button class="btn ghost" disabled>Já possui</button>':'<button class="btn" onclick="buyChar(\''+c.id+'\')">Comprar</button>'}</div>`;
-    shop.appendChild(div);
-  });
-}
-function buyChar(id){
-  if(!user){ alert('Faça login'); return; }
-  const c = DB.chars.find(x=>x.id===id); if(!c) return;
-  if((user.coins||0) < c.cost){ alert('Saldo insuficiente'); return; }
-  user.coins -= c.cost; user.charsOwned = user.charsOwned || []; user.charsOwned.push(c.id);
-  saveDB(); alert('Personagem comprada');
-}
-
-/* import character (JSON with name,cost and optional image file chosen) */
-function importCharacter(){
-  const fjson = el('charFile').files[0];
-  const fimg = el('charImg').files[0];
-  if(!fjson){ alert('Selecione um JSON do personagem'); return; }
-  const reader = new FileReader();
-  reader.onload = function(e){
-    try{
-      const obj = JSON.parse(e.target.result);
-      if(!obj.name || !obj.cost) { alert('JSON inválido: precisa name e cost'); return; }
-      if(fimg){
-        const r2 = new FileReader();
-        r2.onload = function(ev){
-          const dataUrl = ev.target.result;
-          const c = { id: uid('c'), name: obj.name, cost: Number(obj.cost)||50, imgDataUrl: dataUrl, createdAt: Date.now() };
-          DB.chars.push(c); saveDB(); alert('Personagem importado com imagem');
-        }
-        r2.readAsDataURL(fimg);
-      } else {
-        const c = { id: uid('c'), name: obj.name, cost: Number(obj.cost)||50, imgDataUrl: null, createdAt: Date.now() };
-        DB.chars.push(c); saveDB(); alert('Personagem importado');
-      }
-    }catch(err){ alert('Erro JSON: '+err.message) }
-  };
-  reader.readAsText(fjson);
-}
-
-/* ---------- Profiles list & follow ---------- */
-function renderProfiles(){
-  const container = el('profilesList'); container.innerHTML = '';
-  Object.values(DB.users).slice(0,40).forEach(u=>{
-    const d = document.createElement('div'); d.className='profileRow small';
-    d.style.marginBottom='8px';
-    const followBtn = user && user.nickname !== u.nickname ? (user.following && user.following.includes(u.nickname) ? '<button class="btn ghost" onclick="toggleFollow(\''+u.nickname+'\')">Unfollow</button>' : '<button class="btn" onclick="toggleFollow(\''+u.nickname+'\')">Seguir</button>') : '';
-    d.innerHTML = `<div style="display:flex;gap:8px;align-items:center"><div style="width:44px;height:44px;border-radius:8px;background:${u.avatarColor};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800">${u.nickname.slice(0,2).toUpperCase()}</div>
-      <div><strong>${u.nickname}</strong><div class="small">${u.province}</div></div></div><div style="margin-left:auto">${followBtn}</div>`;
-    container.appendChild(d);
-  });
-}
-function toggleFollow(target){
-  if(!user){ alert('Faça login'); return; }
-  if(user.following.includes(target)){ user.following = user.following.filter(x=>x!==target); DB.users[target].followers = DB.users[target].followers.filter(x=>x!==user.nickname); }
-  else{ user.following.push(target); DB.users[target].followers.push(user.nickname); }
-  saveDB();
-}
-
-/* ---------- Chat ---------- */
-function sendChat(){
-  if(!user){ alert('Faça login para chat'); return; }
-  const txt = (el('chatInput').value||'').trim(); if(!txt) return;
-  DB.chat.push({ ts: Date.now(), author: user.nickname, msg: txt });
-  el('chatInput').value=''; saveDB();
-}
-function renderChat(){
-  const area = el('chatArea'); area.innerHTML='';
-  DB.chat.slice().reverse().slice(0,80).forEach(m=>{
-    const d = document.createElement('div'); d.className='small'; d.style.marginBottom='6px';
-    d.innerHTML = `<strong>${escapeHtml(m.author)}</strong> <span style="color:#8a8f98">• ${new Date(m.ts).toLocaleTimeString()}</span><div>${escapeHtml(m.msg)}</div>`;
-    area.appendChild(d);
-  });
-}
-
-/* ---------- Seasons / Tournaments ---------- */
-function createSeason(){
-  const name = el('seasonName').value.trim(); if(!name){ alert('Nome inválido'); return; }
-  const id = uid('s'); DB.seasons.push({ id, name, players:[], results:[], createdAt:Date.now() }); saveDB(); el('seasonName').value=''; alert('Temporada criada'); renderSeasons();
-}
-function renderSeasons(){
-  const container = el('seasonList'); container.innerHTML = '';
-  DB.seasons.forEach(s=>{
-    const div = document.createElement('div'); div.className='small'; div.style.marginBottom='6px';
-    div.innerHTML = `<strong>${s.name}</strong> • Players: ${s.players.length} <div style="margin-top:4px"><button class="btn ghost" onclick="joinSeason('${s.id}')">Inscrever</button> <button class="btn" onclick="runSeason('${s.id}')">Executar</button></div>`;
-    container.appendChild(div);
-  });
-}
-function joinSeason(id){
-  if(!user){ alert('Faça login'); return; }
-  const s = DB.seasons.find(x=>x.id===id); if(!s) return;
-  if(!s.players.includes(user.nickname)) s.players.push(user.nickname); saveDB(); alert('Inscrito em ' + s.name);
-}
-function runSeason(id){
-  const s = DB.seasons.find(x=>x.id===id); if(!s){ alert('Seleciona temporada'); return; }
-  if(s.players.length===0){ alert('Sem jogadores'); return; }
-  // simula resultados por habilidade (xp, coins)
-  const results = s.players.map(n=>{
-    const u = DB.users[n];
-    const score = Math.floor(Math.random()*100) + (u.xp||0)*0.2 + (u.coins||0)*0.05;
-    return { nick:n, score };
-  }).sort((a,b)=>b.score-a.score);
-  // premiar top3 com cupons e coins
-  results.forEach((r,i)=>{
-    const u = DB.users[r.nick];
-    const pts = Math.max(100 - i*30, 20);
-    u.points = (u.points||0) + pts;
-    u.xp = (u.xp||0) + Math.floor(pts/2);
-    if(i===0){ u.coins = (u.coins||0) + 200; giveCoupon(u.nickname, 'TOP1-'+s.name) }
-    if(i===1){ u.coins = (u.coins||0) + 120; giveCoupon(u.nickname, 'TOP2-'+s.name) }
-    if(i===2){ u.coins = (u.coins||0) + 60; giveCoupon(u.nickname, 'TOP3-'+s.name) }
-  });
-  s.results = results; saveDB(); alert('Temporada executada. Top: ' + results[0].nick);
-}
-
-/* coupons system (simple) */
-function giveCoupon(nick, code){
-  DB._coupons = DB._coupons || {};
-  DB._coupons[nick] = DB._coupons[nick] || [];
-  DB._coupons[nick].push({ code, ts:Date.now() });
-}
-function renderCoupons(){
-  const area = el('couponArea'); area.innerHTML = '';
-  const list = DB._coupons && user ? (DB._coupons[user.nickname]||[]) : [];
-  if(!list.length){ area.innerHTML = '<div class="small">Sem cupons</div>'; return; }
-  list.forEach(c=>{
-    const d = document.createElement('div'); d.className='small'; d.style.marginBottom='6px';
-    d.innerText = `${c.code} • ${new Date(c.ts).toLocaleDateString()}`;
-    area.appendChild(d);
-  });
-}
-
-/* ---------- Audio (background music + sfx) ---------- */
-let audioCtx = null; let music = null; let musicOn = true;
-function ensureAudio(){
-  if(audioCtx) return;
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  // simple oscillator background (soft)
-  music = audioCtx.createOscillator();
-  const gain = audioCtx.createGain(); gain.gain.value = 0.02;
-  music.type = 'sine'; music.frequency.value = 220;
-  music.connect(gain); gain.connect(audioCtx.destination); music.start(0);
-}
-function toggleMusic(){
-  if(!audioCtx) ensureAudio();
-  musicOn = !musicOn;
-  audioCtx.destination.channelInterpretation = musicOn ? 'discrete' : 'speakers';
-  el('toggleMusic').innerText = musicOn ? 'Desligar Música' : 'Ligar Música';
-}
-function playSfx(name){
-  if(!audioCtx) ensureAudio();
-  const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-  o.type = 'square'; o.frequency.value = name==='beep' ? 880 : 440; g.gain.value = 0.08;
-  o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime + 0.12);
-}
-
-/* ---------- Export / Import DB ---------- */
-function exportDB(){
-  const blob = new Blob([JSON.stringify(DB,null,2)], {type:'application/json'});
-  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='gt_proto_db.json'; a.click();
-}
-function importDB(){
-  const f = el('importFile').files[0]; if(!f){ alert('Selecione um ficheiro'); return; }
-  const r = new FileReader(); r.onload = function(e){
-    try{ const j = JSON.parse(e.target.result); DB = j; saveDB(); alert('Import ok'); }catch(err){ alert('Erro import: '+err.message) }
-  }; r.readAsText(f);
-}
-
-/* ---------- Logout / edit ---------- */
-function logout(){ localStorage.removeItem('gt_nickname'); nickname=''; user=null; refreshAll(); }
-function editProfile(){ if(!user) return; const bio = prompt('Bio curta (140 chars)', user.bio||''); if(bio!==null){ user.bio = bio.slice(0,140); saveDB(); } }
-
-/* ---------- Racing game (Canvas) ----------
-   Simple 2D top-down runner with lanes, physics moderate.
-   Controls: accelerate (touch), left/right to change lane
--------------------------------------------*/
-const canvas = el('race'); const ctx = canvas.getContext('2d');
-let raceState = null; // will contain race variables
-let inputState = { left:false, right:false, accel:false };
-function pressLeft(v){ inputState.left=v; } function pressRight(v){ inputState.right=v; } function pressAccel(v){ inputState.accel=v; }
-
-function startRace(mode='cpu'){
-  // init race state
-  raceState = {
-    mode, // cpu or sim (simulated online)
-    player: { x: canvas.width/2, y: canvas.height - 80, speed:0, lane:1, color: user ? user.avatarColor : '#60a5fa', dist:0 },
-    bots: [],
-    time: 30,
-    startedAt: Date.now(),
-    finished:false,
-    lap:1
-  };
-  // create bots
-  const botCount = mode==='cpu' ? 3 : 5;
-  for(let i=0;i<botCount;i++){
-    raceState.bots.push({ id:'bot'+i, lane: i%3, speed: 2 + Math.random()*2, dist: Math.random()*50, color: randColor() });
-  }
-  el('raceMode').innerText = mode==='cpu' ? 'CPU' : 'Online (simulado)';
-  el('raceInfo').innerText = 'Prepare...';
-  // start loop
-  if(!raceLoopId) raceLoop();
-}
-
-let raceLoopId = null;
-function raceLoop(){
-  raceLoopId = requestAnimationFrame(raceLoop);
-  if(!raceState) return;
-  // update
-  const rs = raceState;
-  // player physics
-  if(inputState.accel){ rs.player.speed = Math.min(rs.player.speed + 0.25, 8); } else { rs.player.speed = Math.max(rs.player.speed - 0.15, 0); }
-  if(inputState.left) rs.player.lane = Math.max(0, rs.player.lane - 0.1);
-  if(inputState.right) rs.player.lane = Math.min(2, rs.player.lane + 0.1);
-  // lane x positions
-  const lanes = [canvas.width*0.25, canvas.width*0.5, canvas.width*0.75];
-  // move player
-  rs.player.x += (lanes[Math.round(rs.player.lane)] - rs.player.x) * 0.2;
-  rs.player.dist += rs.player.speed * 0.6;
-  // bots movement
-  rs.bots.forEach(b=>{ b.dist += b.speed; b.lane += (Math.round(Math.random()*2)-b.lane)*0.02; if(b.lane<0) b.lane=0; if(b.lane>2) b.lane=2; });
-  // time
-  rs.time = Math.max(0, 30 - Math.floor((Date.now() - rs.startedAt)/1000));
-  if(rs.time===0 && !rs.finished){ rs.finished=true; concludeRace(); }
-  // draw
-  renderRace();
-}
-
-function renderRace(){
-  // background track
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  // draw lanes
-  const laneX = [canvas.width*0.25, canvas.width*0.5, canvas.width*0.75];
-  ctx.fillStyle='#0b1530'; ctx.fillRect(0,0,canvas.width,canvas.height);
-  for(let i=0;i<3;i++){
-    ctx.fillStyle = i%2===0 ? '#0e2240' : '#081227';
-    ctx.fillRect(laneX[i]-120,0,240,canvas.height);
-    ctx.fillStyle='rgba(255,255,255,0.04)'; ctx.fillRect(laneX[i]-2,0,4,canvas.height);
-  }
-  // draw bots (ahead based on dist)
-  const all = raceState.bots.concat([raceState.player]);
-  all.sort((a,b)=>b.dist - a.dist);
-  // draw each as rectangle with name and progress
-  all.forEach((p, idx)=>{
-    const lane = p.lane !== undefined ? Math.round(p.lane) : 1;
-    const x = laneX[lane];
-    const y = 40 + idx*40;
-    ctx.fillStyle = p.color;
-    ctx.fillRect(x-26, y-12, 52, 24);
-    ctx.fillStyle='#ffffff';
-    ctx.font='12px sans-serif';
-    ctx.fillText((p.nickname||p.id||'PLAYER'), x-20, y+4);
-    // progress bar
-    ctx.fillStyle='rgba(255,255,255,0.08)'; ctx.fillRect(40, canvas.height-30-idx*8, canvas.width-80, 6);
-    const prog = Math.min(1, (p.dist||0)/400);
-    ctx.fillStyle='rgba(255,255,255,0.18)'; ctx.fillRect(40, canvas.height-30-idx*8, (canvas.width-80)*prog, 6);
-  });
-  // HUD
-  ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.font='14px sans-serif';
-  ctx.fillText('Tempo: ' + raceState.time + 's', 12, 20);
-  ctx.fillText('Vel: ' + Math.round(raceState.player.speed), 12, 40);
-  ctx.fillText('Dist: ' + Math.floor(raceState.player.dist), 12, 60);
-}
-
-function concludeRace(){
-  // compute positions by dist
-  const arr = raceState.bots.concat([raceState.player]).map(p=>({ id:p.id || (p.nickname||user.nickname), dist:p.dist || p.dist }));
-  arr.sort((a,b)=>b.dist - a.dist);
-  const pos = arr.findIndex(a=>a.id === (user ? user.nickname : 'player')) + 1;
-  // rewards based on pos
-  if(user){
-    const coins = Math.max(10, 120 - pos*20);
-    const points = Math.max(10, 80 - pos*15);
-    user.coins = (user.coins||0) + coins;
-    user.points = (user.points||0) + points;
-    user.xp = (user.xp||0) + Math.floor(points/2);
-    saveDB();
-    alert('Corrida finalizada! Posição: ' + pos + ' — Ganhou ' + coins + ' GT-Coins');
-  } else {
-    alert('Corrida finalizada!');
-  }
-  // stop loop
-  cancelAnimationFrame(raceLoopId); raceLoopId = null; raceState = null;
-}
-
-/* show stats */
-function showRaceStats(){ if(!raceState) alert('Nenhuma corrida em andamento'); else alert('Tempo: '+raceState.time+'s'); }
-
-/* ---------- Misc ---------- */
-function saveDB(){ localStorage.setItem(DB_KEY, JSON.stringify(DB)); refreshAll(); }
-function exportDB(){ const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='gt_export.json'; a.click(); }
-function importDBFromFile(file){ const r=new FileReader(); r.onload=function(e){ try{ DB=JSON.parse(e.target.result); saveDB(); alert('Import ok'); }catch(err){ alert('Erro import') } }; r.readAsText(file); }
-
-/* handle import button */
-el('importFile') && el('importFile').addEventListener('change', (e)=>{ const f=e.target.files[0]; if(f) importDBFromFile(f); });
-
-/* chat render after save */
-const origSave = saveDB;
-function saveDB(){ localStorage.setItem(DB_KEY, JSON.stringify(DB)); refreshAll(); }
-
-</script>
+<script src="languages.json" type="application/json"></script>
+<script src="shops.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
