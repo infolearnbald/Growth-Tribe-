@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Recuperar senha — InfoLearn</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="navbar">
+  <div class="logo">InfoLearn</div>
+  <nav><a href="index.html">Início</a></nav>
+  <div class="hamburger" onclick="toggleNav()">☰</div>
+</header>
+
+<section class="form-box">
+  <h2>Recuperar Senha</h2>
+  <form id="recoveryForm">
+    <input type="email" id="recoveryEmail" placeholder="Seu email" required>
+    <button class="btn" type="submit">Enviar Link de Recuperação</button>
+  </form>
+  <p id="recoveryMsg" style="color:green;margin-top:10px;"></p>
+</section>
+
+<script type="module">
+import { sendPasswordReset } from './auth.js';
+const form = document.getElementById('recoveryForm');
+const recoveryMsg = document.getElementById('recoveryMsg');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  recoveryMsg.textContent = '';
+  try {
+    await sendPasswordReset(document.getElementById('recoveryEmail').value);
+    recoveryMsg.style.color = 'green';
+    recoveryMsg.textContent = 'Email de recuperação enviado. Verifique sua caixa de entrada.';
+  } catch (err) {
+    recoveryMsg.style.color = 'red';
+    recoveryMsg.textContent = err.message;
+  }
+});
+</script>
+</body>
+</html>
